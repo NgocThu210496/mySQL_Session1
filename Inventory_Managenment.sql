@@ -1,0 +1,62 @@
+CREATE DATABASE Inventory_Managenment;
+USE Inventory_Managenment;
+DROP DATABASE Inventory_Managenment;
+
+CREATE TABLE PhieuXuat(
+	Ma_SoPx INT PRIMARY kEY,
+    Ngay_xuat DATE NOT NULL,
+    DG_Xuat FLOAT NOT NULL,
+    So_LuongXuat INT NOT NULL
+);
+
+CREATE TABLE VatTu(
+	Ma_Vattu INT PRIMARY KEY,
+    Ten_Vattu VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE CTPhieuXuat(
+	Ma_SoPx INT,
+    Ma_Vattu INT,
+    FOREIGN KEY (Ma_SoPx) REFERENCES PhieuXuat(Ma_SoPx),
+    FOREIGN KEY (Ma_Vattu) REFERENCES VatTu(Ma_Vattu),
+    PRIMARY KEY (Ma_SoPx,Ma_Vattu),
+    DG_Xuat REAL NOT NULL,
+    SL_Xuat SMALLINT NOT NULL
+);
+
+CREATE TABLE PhieuNhat(
+	Ma_SoPN INT NOT NULL PRIMARY KEY,
+    Ngay_Nhap DATE NOT NULL
+);
+
+CREATE TABLE CTPhieuNhap(
+	Ma_SoPN INT,
+    Ma_Vattu INT,
+    FOREIGN KEY (Ma_SoPN)REFERENCES PhieuNhat(Ma_SoPN),
+    FOREIGN KEY (Ma_Vattu) REFERENCES VatTu(Ma_Vattu),
+    PRIMARY KEY (Ma_SoPN,Ma_Vattu),
+    DG_Nhap REAL NOT NULL,
+    SL_Nhap SMALLINT NOT NULL
+);
+
+CREATE TABLE DonDH(
+	Ma_SoDH INT NOT NULL PRIMARY KEY,
+    Ngay_DH DATETIME NOT NULL
+);
+
+CREATE TABLE CTDonDH(
+	Ma_SoDH INT,
+     Ma_Vattu INT,
+     FOREIGN KEY (Ma_SoDH) REFERENCES DonDH (Ma_SoDH),
+     FOREIGN KEY (Ma_Vattu) REFERENCES VatTu(Ma_Vattu),
+     PRIMARY KEY (Ma_SoDH,Ma_Vattu)
+);
+
+CREATE TABLE NhaCC(
+	MaNCC CHAR(10) PRIMARY KEY,
+    TenNCC VARCHAR(50) NOT NULL,
+    DiaChi VARCHAR(50) NOT NULL,
+    Phone VARCHAR(20) NOT NULL,
+    Ma_SoDH INT,
+	FOREIGN KEY (Ma_SoDH) REFERENCES DonDH (Ma_SoDH)
+)
